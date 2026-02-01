@@ -1,5 +1,4 @@
 # C Programming: Pointers, Structures, and Memory Mapping
-​This repository contains notes and code examples focusing on the intricate relationship between pointers, arrays, and structures in C. The goal is to understand how the CPU and Memory interact with high-level C syntax.
 ## ​1. Pointer Arithmetic & Dereferencing
 ​Understanding how pointers navigate memory addresses.
 ​Pointer Notation vs. Array Notation: Learning that a[i] is equivalent to *(a + i).

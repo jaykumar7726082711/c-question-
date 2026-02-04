@@ -389,7 +389,7 @@ cout << *(p + 1) << endl;
 ```
 11
 20
-``
+```
 ```
 int arr[] = {3, 6, 9, 12};
 int *p = arr;
@@ -404,6 +404,7 @@ while(p <= &arr[3]) {
 6
 9
 12
+```
 ```
 int arr[] = {1, 2, 3};
 int *p = arr;
@@ -447,9 +448,10 @@ Data *p = arr;
 cout << p->x << endl;
 cout << (p + 1)->y << endl;
 ```
+```
 1
 4
-
+```
 ```
 struct Item {
     int price;

@@ -330,6 +330,10 @@ cout << *p << endl;
 cout << *(p + 1) << endl;
 cout << *(p + 3) << endl;
 ```
+``
+10
+20
+40
 ```
 int arr[] = {5, 10, 15, 20};
 int *p = arr + 2;
@@ -338,11 +342,21 @@ cout << *p << endl;
 cout << *(p - 1) << endl;
 ```
 ```
+15
+10
+```
+```
 int arr[5] = {1, 2, 3, 4, 5};
 
 for(int i = 0; i < 5; i++)
     cout << *(arr + i) << " ";
+
 ```
+1
+2
+3
+4
+5
 ```
 int arr[] = {2, 4, 6, 8};
 int *p = arr;
@@ -352,10 +366,7 @@ p++;
 cout << *p << endl;
 ```
 ```
-int arr[] = {7, 14, 21};
-
-cout << arr[1] << endl;
-cout << 1[arr] << endl;
+4
 ```
 ```
 int arr[] = {7, 14, 21};
@@ -363,6 +374,11 @@ int arr[] = {7, 14, 21};
 cout << arr[1] << endl;
 cout << 1[arr] << endl;
 ```
+```
+14
+14
+```
+
 ```
 int arr[] = {10, 20, 30};
 int *p = arr;
@@ -370,6 +386,10 @@ int *p = arr;
 cout << *p + 1 << endl;
 cout << *(p + 1) << endl;
 ```
+```
+11
+20
+``
 ```
 int arr[] = {3, 6, 9, 12};
 int *p = arr;
@@ -380,6 +400,11 @@ while(p <= &arr[3]) {
 }
 ```
 ```
+3
+6
+9
+12
+```
 int arr[] = {1, 2, 3};
 int *p = arr;
 
@@ -387,11 +412,21 @@ for(int i = 0; i < 3; i++)
     cout << *(p++) << " ";
 ```
 ```
+1
+2
+3
+```
+```
 int arr[] = {10, 20, 30};
 int *p = arr;
 
 cout << p << endl;
 cout << p + 1 << endl;
+```
+```
+0x7ffee4b2a8c0
+0x7ffee4b2a8c4
+
 ```
 ```
 char arr[] = {'A', 'B', 'C'};
@@ -412,6 +447,9 @@ Data *p = arr;
 cout << p->x << endl;
 cout << (p + 1)->y << endl;
 ```
+1
+4
+
 ```
 struct Item {
     int price;
@@ -422,4 +460,8 @@ Item *p = arr;
 
 cout << p[2].price << endl;
 cout << (*(p + 1)).price << endl;
+```
+```
+300
+200
 ```

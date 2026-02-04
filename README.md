@@ -227,3 +227,129 @@ int main() {
     return 0;
 }
 ```
+1.
+Create a structure Student with:
+
+roll number
+
+name
+
+marks
+
+Input details of 5 students and display students who scored more than 75 marks.
+
+
+2.
+
+Define a structure Employee containing:
+
+employee ID
+
+name
+
+basic salary
+
+Calculate and display gross salary (basic + 20% HRA + 10% DA).
+
+output question 
+```
+int arr[] = {10, 20, 30, 40};
+int *p = arr;
+
+cout << *p << endl;
+cout << *(p + 1) << endl;
+cout << *(p + 3) << endl;
+```
+```
+int arr[] = {5, 10, 15, 20};
+int *p = arr + 2;
+
+cout << *p << endl;
+cout << *(p - 1) << endl;
+```
+```
+int arr[5] = {1, 2, 3, 4, 5};
+
+for(int i = 0; i < 5; i++)
+    cout << *(arr + i) << " ";
+```
+```
+int arr[] = {2, 4, 6, 8};
+int *p = arr;
+
+p++;
+
+cout << *p << endl;
+```
+```
+int arr[] = {7, 14, 21};
+
+cout << arr[1] << endl;
+cout << 1[arr] << endl;
+```
+```
+int arr[] = {7, 14, 21};
+
+cout << arr[1] << endl;
+cout << 1[arr] << endl;
+```
+```
+int arr[] = {10, 20, 30};
+int *p = arr;
+
+cout << *p + 1 << endl;
+cout << *(p + 1) << endl;
+```
+```
+int arr[] = {3, 6, 9, 12};
+int *p = arr;
+
+while(p <= &arr[3]) {
+    cout << *p << " ";
+    p++;
+}
+```
+```
+int arr[] = {1, 2, 3};
+int *p = arr;
+
+for(int i = 0; i < 3; i++)
+    cout << *(p++) << " ";
+```
+```
+int arr[] = {10, 20, 30};
+int *p = arr;
+
+cout << p << endl;
+cout << p + 1 << endl;
+```
+```
+char arr[] = {'A', 'B', 'C'};
+char *p = arr;
+
+cout << p << endl;
+cout << p + 1 << endl;
+```
+```
+struct Data {
+    int x;
+    int y;
+};
+
+Data arr[] = {{1,2}, {3,4}, {5,6}};
+Data *p = arr;
+
+cout << p->x << endl;
+cout << (p + 1)->y << endl;
+```
+```
+struct Item {
+    int price;
+};
+
+Item arr[] = {100, 200, 300};
+Item *p = arr;
+
+cout << p[2].price << endl;
+cout << (*(p + 1)).price << endl;
+```

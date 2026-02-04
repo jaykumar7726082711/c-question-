@@ -237,6 +237,43 @@ name
 marks
 
 Input details of 5 students and display students who scored more than 75 marks.
+```
+#include <iostream>
+using namespace std;
+
+struct Student {
+    int roll;
+    string name;
+    float marks;
+};
+
+int main() {
+    Student s[5];
+
+    // Input details
+    for (int i = 0; i < 5; i++) {
+        cout << "\nEnter details of student " << i + 1 << endl;
+        cout << "Roll Number: ";
+        cin >> s[i].roll;
+        cout << "Name: ";
+        cin >> s[i].name;
+        cout << "Marks: ";
+        cin >> s[i].marks;
+    }
+
+    // Display students with marks > 75
+    cout << "\nStudents who scored more than 75 marks:\n";
+    for (int i = 0; i < 5; i++) {
+        if (s[i].marks > 75) {
+            cout << "Roll: " << s[i].roll
+                 << ", Name: " << s[i].name
+                 << ", Marks: " << s[i].marks << endl;
+        }
+    }
+
+    return 0;
+}
+```
 
 
 2.
@@ -250,6 +287,39 @@ name
 basic salary
 
 Calculate and display gross salary (basic + 20% HRA + 10% DA).
+```
+#include <iostream>
+using namespace std;
+
+struct Employee {
+    int empId;
+    string name;
+    float basic, gross;
+};
+
+int main() {
+    Employee e;
+
+    // Input details
+    cout << "Enter Employee ID: ";
+    cin >> e.empId;
+    cout << "Enter Name: ";
+    cin >> e.name;
+    cout << "Enter Basic Salary: ";
+    cin >> e.basic;
+
+    // Gross salary calculation
+    e.gross = e.basic + (0.20 * e.basic) + (0.10 * e.basic);
+
+    // Output
+    cout << "\nEmployee Details\n";
+    cout << "ID: " << e.empId << endl;
+    cout << "Name: " << e.name << endl;
+    cout << "Gross Salary: " << e.gross << endl;
+
+    return 0;
+}
+```
 
 output question 
 ```

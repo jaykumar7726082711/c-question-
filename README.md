@@ -1791,7 +1791,6 @@ public:
         deleteSubtree(current);
 
         cout <
-```
 
 }
 ```

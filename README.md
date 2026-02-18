@@ -949,5 +949,849 @@ int main() {
     ref = 200;  // Modifies the global variable
     cout << "Modified global value: " << globalVar << endl;
     return 0;
+```
+## Create a struct Subject { string name; int marks; }.
+Create a class Student with:
+
+private: int roll; string name; Subject* subjects; int n;
+
+constructor allocates dynamic memory for n subjects
+
+member functions: input(), display(), total(), grade()
+
+Store N students using pointer to object array, find topper, and free all memory properly.
+```
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Subject {
+    string name;
+    int marks;
+};
+
+class Student {
+private:
+    int roll;
+    string name;
+    Subject* subjects;
+    int n;  // number of subjects
+
+public:
+    // Constructor
+    Student(int numSubjects = 0) {
+        n = numSubjects;
+        if (n > 0)
+            subjects = new Subject[n];
+        else
+            subjects = nullptr;
+    }
+
+    // Destructor
+    ~Student() {
+        delete[] subjects;
+    }
+
+    void input() {
+        cout << "\nEnter Roll Number: ";
+        cin >> roll;
+        cout << "Enter Name: ";
+        cin >> name;
+
+        for (int i = 0; i < n; i++) {
+            cout << "\nEnter Subject " << i + 1 << " Name: ";
+            cin >> subjects[i].name;
+            cout << "Enter Marks: ";
+            cin >> subjects[i].marks;
+        }
+    }
+
+    void display() const {
+        cout << "\nRoll No: " << roll;
+        cout << "\nName: " << name;
+        cout << "\nSubjects:\n";
+
+        for (int i = 0; i < n; i++) {
+            cout << subjects[i].name << " : " << subjects[i].marks << endl;
+        }
+
+        cout << "Total Marks: " << total();
+        cout << "\nGrade: " << grade() << endl;
+    }
+
+    int total() const {
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += subjects[i].marks;
+        }
+        return sum;
+    }
+
+    char grade() const {
+        float avg = (float)total() / n;
+
+        if (avg >= 90) return 'A';
+        else if (avg >= 75) return 'B';
+        else if (avg >= 50) return 'C';
+        else return 'F';
+    }
+};
+
+int main() {
+    int N, nSubjects;
+
+    cout << "Enter number of students: ";
+    cin >> N;
+
+    cout << "Enter number of subjects per student: ";
+    cin >> nSubjects;
+
+    // Dynamic array of Student objects
+    Student* students = new Student[N];
+
+    // Reallocate each student with subject count
+    for (int i = 0; i < N; i++) {
+        students[i] = Student(nSubjects);
+        cout << "\nEntering details for Student " << i + 1;
+        students[i].input();
+    }
+
+    // Display all students
+    cout << "\n\n--- Student Details ---\n";
+    for (int i = 0; i < N; i++) {
+        students[i].display();
+    }
+
+    // Find Topper
+    int maxIndex = 0;
+    for (int i = 1; i < N; i++) {
+        if (students[i].total() > students[maxIndex].total()) {
+            maxIndex = i;
+        }
+    }
+
+    cout << "\n\n--- Topper ---\n";
+    students[maxIndex].display();
+
+    // Free memory
+    delete[] students;
+
+    return 0;
+}
+```
+## Create a struct Node containing:
+
+Patient data (id, name, severity)
+
+Node* next
+
+Create a class PatientQueue implementing:
+
+enqueue (based on severity priority)
+
+dequeue
+
+display
+Use dynamic memory (new/delete) and demonstrate queue operations.
+```
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node {
+    int id;
+    string name;
+    int severity;   // Higher value = Higher priority
+    Node* next;
+};
+
+class PatientQueue {
+private:
+    Node* front;
+
+public:
+    PatientQueue() {
+        front = nullptr;
+    }
+
+    ~PatientQueue() {
+        // Free all remaining nodes
+        while (front != nullptr) {
+            dequeue();
+        }
+    }
+
+    // Enqueue based on severity (priority insertion)
+    void enqueue(int id, string name, int severity) {
+        Node* newNode = new Node;
+        newNode->id = id;
+        newNode->name = name;
+        newNode->severity = severity;
+        newNode->next = nullptr;
+
+        // If queue is empty OR new node has higher priority than front
+        if (front == nullptr || severity > front->severity) {
+            newNode->next = front;
+            front = newNode;
+        }
+        else {
+            Node* temp = front;
+            while (temp->next != nullptr && 
+                   temp->next->severity >= severity) {
+                temp = temp->next;
+            }
+            newNode->next = temp->next;
+            temp->next = newNode;
+        }
+
+        cout << "Patient Enqueued Successfully!\n";
+    }
+
+    // Dequeue (remove highest priority patient)
+    void dequeue() {
+        if (front == nullptr) {
+            cout << "Queue is empty!\n";
+            return;
+        }
+
+        Node* temp = front;
+        cout << "Dequeued Patient: "
+             << temp->name << " (Severity: "
+             << temp->severity << ")\n";
+
+        front = front->next;
+        delete temp;
+    }
+
+    // Display queue
+    void display() {
+        if (front == nullptr) {
+            cout << "Queue is empty!\n";
+            return;
+        }
+
+        Node* temp = front;
+        cout << "\n--- Patient Queue ---\n";
+        while (temp != nullptr) {
+            cout << "ID: " << temp->id
+                 << ", Name: " << temp->name
+                 << ", Severity: " << temp->severity
+                 << endl;
+            temp = temp->next;
+        }
+    }
+};
+
+int main() {
+    PatientQueue pq;
+
+    // Demonstration
+    pq.enqueue(101, "Alice", 2);
+    pq.enqueue(102, "Bob", 5);
+    pq.enqueue(103, "Charlie", 3);
+    pq.enqueue(104, "David", 8);
+
+    pq.display();
+
+    cout << "\nPerforming Dequeue Operations:\n";
+    pq.dequeue();
+    pq.dequeue();
+
+    pq.display();
+
+    return 0;
+}
+```
+## Create a struct BookNode:
+
+int id; string title; string author; bool issued;
+
+BookNode* next
+
+Create a class Library with:
+
+BookNode* head
+
+addBook(), issueBook(id), returnBook(id), searchBook(title), displayAll()
+
+Use pointers to traverse linked list and manage memory safely.
+```
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct BookNode {
+    int id;
+    string title;
+    string author;
+    bool issued;
+    BookNode* next;
+};
+
+class Library {
+private:
+    BookNode* head;
+
+public:
+    // Constructor
+    Library() {
+        head = nullptr;
+    }
+
+    // Destructor (free memory safely)
+    ~Library() {
+        BookNode* temp;
+        while (head != nullptr) {
+            temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+
+    // Add Book (insert at end)
+    void addBook(int id, string title, string author) {
+        BookNode* newBook = new BookNode;
+        newBook->id = id;
+        newBook->title = title;
+```
+## Create a struct Transaction:
+
+string type; double amount; string date; Transaction* next
+
+Create a class BankAccount:
+
+private: accountNo, holderName, balance, Transaction* historyHead
+
+deposit(), withdraw(), showHistory(), showBalance()
+
+Store multiple accounts using BankAccount* array pointer and search account by number.
+```
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Transaction {
+    string type;      // Deposit / Withdraw
+    double amount;
+    string date;
+    Transaction* next;
+};
+
+class BankAccount {
+private:
+    int accountNo;
+    string holderName;
+    double balance;
+    Transaction* historyHead;
+
+public:
+    // Constructor
+    BankAccount() {
+        accountNo = 0;
+        holderName = "";
+        balance = 0.0;
+        historyHead = nullptr;
+    }
+
+    BankAccount(int accNo, string name, double initialBalance) {
+        accountNo = accNo;
+        holderName = name;
+        balance = initialBalance;
+        historyHead = nullptr;
+    }
+
+    // Destructor (free transaction history memory)
+    ~BankAccount() {
+        Transaction* temp;
+        while (historyHead != nullptr) {
+            temp = historyHead;
+            historyHead = historyHead->next;
+            delete temp;
+        }
+    }
+
+    int getAccountNo() const {
+        return accountNo;
+    }
+
+    void deposit(double amount, string date) {
+        balance += amount;
+
+        Transaction* newTrans = new Transaction;
+        newTrans->type = "Deposit";
+        newTrans->amount = amount;
+        newTrans->date = date;
+        newTrans->next = historyHead;
+        historyHead = newTrans;
+
+        cout << "Deposit successful!\n";
+    }
+
+    void withdraw(double amount, string date) {
+        if (amount > balance) {
+            cout << "Insufficient balance!\n";
+            return;
+        }
+
+        balance -= amount;
+
+        Transaction* newTrans = new Transaction;
+        newTrans->type = "Withdraw";
+        newTrans->amount = amount;
+        newTrans->date = date;
+        newTrans->next = historyHead;
+        historyHead = newTrans;
+
+        cout << "Withdrawal successful!\n";
+    }
+
+    void showBalance() const {
+        cout << "Account No: " << accountNo
+             << "\nHolder Name: " << holderName
+             << "\nBalance: " << balance << endl;
+    }
+
+    void showHistory() const {
+        if (historyHead == nullptr) {
+            cout << "No transactions found.\n";
+            return;
+        }
+
+        Transaction* temp = historyHead;
+        cout << "\n--- Transaction History ---\n";
+
+        while (temp != nullptr) {
+            cout << temp->date << " | "
+                 << temp->type << " | "
+                 << temp->amount << endl;
+            temp = temp->next;
+        }
+    }
+};
+
+int main() {
+    int n;
+
+    cout << "Enter number of accounts: ";
+    cin >> n;
+
+    // Dynamic array of BankAccount objects
+    BankAccount* accounts = new BankAccount[n];
+
+    // Input account details
+    for (int i = 0; i < n; i++) {
+        int accNo;
+        string name;
+        double balance;
+
+        cout << "\nEnter Account No: ";
+        cin >> accNo;
+        cout << "Enter Holder Name: ";
+        cin >> name;
+        cout << "Enter Initial Balance: ";
+        cin >> balance;
+
+        accounts[i] = BankAccount(accNo, name, balance);
+    }
+
+    // Search account by number
+    int searchAcc;
+    cout << "\nEnter account number to access: ";
+    cin >> searchAcc;
+
+    BankAccount* found = nullptr;
+
+    for (int i = 0; i < n; i++) {
+        if (accounts[i].getAccountNo() == searchAcc) {
+            found = &accounts[i];
+            break;
+        }
+    }
+
+    if (found != nullptr) {
+        found->showBalance();
+        found->deposit(500, "18-02-2026");
+        found->withdraw(200, "18-02-2026");
+        found->showBalance();
+        found->showHistory();
+    } else {
+        cout << "Account not found!\n";
+    }
+
+    // Free memory
+    delete[] accounts;
+
+    return 0;
+}
+```
+## create a struct Course:
+
+courseCode, courseName, credits
+
+Create a class Student:
+
+roll, name
+
+Course* registeredCourses (dynamic)
+
+registerCourses(), dropCourse(code), showCourses(), totalCredits()
+
+Store multiple students using pointers and print list of students registered in a given course.
+```
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Course {
+    string courseCode;
+    string courseName;
+    int credits;
+};
+
+class Student {
+private:
+    int roll;
+    string name;
+    Course* registeredCourses;
+    int courseCount;
+
+public:
+    // Constructor
+    Student() {
+        roll = 0;
+        name = "";
+        registeredCourses = nullptr;
+        courseCount = 0;
+    }
+
+    Student(int r, string n, int maxCourses) {
+        roll = r;
+        name = n;
+        courseCount = 0;
+        registeredCourses = new Course[maxCourses];
+    }
+
+    // Destructor
+    ~Student() {
+        delete[] registeredCourses;
+    }
+
+    int getRoll() const { return roll; }
+    string getName() const { return name; }
+    int getCourseCount() const { return courseCount; }
+    Course* getCourses() const { return registeredCourses; }
+
+    // Register course
+    void registerCourse(string code, string cname, int credits) {
+        registeredCourses[courseCount].courseCode = code;
+        registeredCourses[courseCount].courseName = cname;
+        registeredCourses[courseCount].credits = credits;
+        courseCount++;
+        cout << "Course registered successfully!\n";
+    }
+
+    // Drop course by code
+    void dropCourse(string code) {
+        for (int i = 0; i < courseCount; i++) {
+            if (registeredCourses[i].courseCode == code) {
+                // Shift left
+                for (int j = i; j < courseCount - 1; j++) {
+                    registeredCourses[j] = registeredCourses[j + 1];
+                }
+                courseCount--;
+                cout << "Course dropped successfully!\n";
+                return;
+            }
+        }
+        cout << "Course not found!\n";
+    }
+
+    // Show registered courses
+    void showCourses() const {
+        if (courseCount == 0) {
+            cout << "No courses registered.\n";
+            return;
+        }
+
+        cout << "\nCourses for " << name << ":\n";
+        for (int i = 0; i < courseCount; i++) {
+            cout << registeredCourses[i].courseCode << " - "
+                 << registeredCourses[i].courseName
+                 << " (" << registeredCourses[i].credits << " credits)\n";
+        }
+    }
+
+    // Total credits
+    int totalCredits() const {
+        int total = 0;
+        for (int i = 0; i < courseCount; i++) {
+            total += registeredCourses[i].credits;
+        }
+        return total;
+    }
+};
+
+int main() {
+    int n, maxCourses;
+
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    cout << "Enter max courses per student: ";
+    cin >> maxCourses;
+
+    Student* students = new Student[n];
+
+    // Input student details
+    for (int i = 0; i < n; i++) {
+        int roll;
+        string name;
+
+        cout << "\nEnter Roll No: ";
+        cin >> roll;
+        cout << "Enter Name: ";
+        cin >> name;
+
+        students[i] = Student(roll, name, maxCourses);
+
+        int c;
+        cout << "How many courses to register? ";
+        cin >> c;
+
+        for (int j = 0; j < c; j++) {
+            string code, cname;
+            int credits;
+
+            cout << "Course Code: ";
+            cin >> code;
+            cout << "Course Name: ";
+            cin >> cname;
+            cout << "Credits: ";
+            cin >> credits;
+
+            students[i].registerCourse(code, cname, credits);
+        }
+    }
+
+    // Display all students and courses
+    cout << "\n--- Student Course Details ---\n";
+    for (int i = 0; i < n; i++) {
+        cout << "\nRoll: " << students[i].getRoll()
+             << ", Name: " << students[i].getName() << endl;
+        students[i].showCourses();
+        cout << "Total Credits: " << students[i].totalCredits() << endl;
+    }
+
+    // Print students registered in a given course
+    string searchCode;
+    cout << "\nEnter course code to search students: ";
+    cin >> searchCode;
+
+    cout << "\nStudents registered in " << searchCode << ":\n";
+
+    for (int i = 0; i < n; i++) {
+        Course* courses = students[i].getCourses();
+        for (int j = 0; j < students[i].getCourseCount(); j++) {
+            if (courses[j].courseCode == searchCode) {
+                cout << students[i].getRoll()
+                     << " - " << students[i].getName() << endl;
+            }
+        }
+    }
+
+    // Free memory
+    delete[] students;
+
+    return 0;
+}
+```
+## Create a struct DirNode:
+
+string name; bool isFile;
+
+DirNode* child; DirNode* sibling;
+
+Create a class DirectoryTree:
+
+createFolder(path), createFile(path)
+
+list(path)
+
+deleteNode(path)
+Implement using pointers (tree navigation) and free memory in destructor.
+```
+#include <iostream>
+#include <string>
+#include <sstream>
+using namespace std;
+
+struct DirNode {
+    string name;
+    bool isFile;
+    DirNode* child;     // first child
+    DirNode* sibling;   // next sibling
+};
+
+class DirectoryTree {
+private:
+    DirNode* root;
+
+    // Utility: split path by '/'
+    string getNextToken(stringstream &ss) {
+        string token;
+        getline(ss, token, '/');
+        return token;
+    }
+
+    // Find node by path
+    DirNode* findNode(string path) {
+        if (path == "/") return root;
+
+        stringstream ss(path);
+        string token;
+        DirNode* current = root;
+
+        while (getline(ss, token, '/')) {
+            if (token.empty()) continue;
+
+            DirNode* child = current->child;
+            while (child != nullptr && child->name != token) {
+                child = child->sibling;
+            }
+
+            if (child == nullptr)
+                return nullptr;
+
+            current = child;
+        }
+        return current;
+    }
+
+    // Recursive delete subtree
+    void deleteSubtree(DirNode* node) {
+        if (!node) return;
+
+        deleteSubtree(node->child);
+        deleteSubtree(node->sibling);
+        delete node;
+    }
+
+public:
+    DirectoryTree() {
+        root = new DirNode{"/", false, nullptr, nullptr};
+    }
+
+    ~DirectoryTree() {
+        deleteSubtree(root);
+    }
+
+    // Create folder
+    void createFolder(string path) {
+        int pos = path.find_last_of('/');
+        string parentPath = path.substr(0, pos);
+        string folderName = path.substr(pos + 1);
+
+        if (parentPath.empty()) parentPath = "/";
+
+        DirNode* parent = findNode(parentPath);
+        if (!parent || parent->isFile) {
+            cout << "Invalid parent path!\n";
+            return;
+        }
+
+        DirNode* newNode = new DirNode{folderName, false, nullptr, nullptr};
+
+        // Insert as first child
+        newNode->sibling = parent->child;
+        parent->child = newNode;
+
+        cout << "Folder created successfully!\n";
+    }
+
+    // Create file
+    void createFile(string path) {
+        int pos = path.find_last_of('/');
+        string parentPath = path.substr(0, pos);
+        string fileName = path.substr(pos + 1);
+
+        if (parentPath.empty()) parentPath = "/";
+
+        DirNode* parent = findNode(parentPath);
+        if (!parent || parent->isFile) {
+            cout << "Invalid parent path!\n";
+            return;
+        }
+
+        DirNode* newNode = new DirNode{fileName, true, nullptr, nullptr};
+
+        newNode->sibling = parent->child;
+        parent->child = newNode;
+
+        cout << "File created successfully!\n";
+    }
+
+    // List contents
+    void list(string path) {
+        DirNode* node = findNode(path);
+
+        if (!node) {
+            cout << "Path not found!\n";
+            return;
+        }
+
+        DirNode* child = node->child;
+        cout << "\nContents of " << path << ":\n";
+
+        while (child != nullptr) {
+            cout << (child->isFile ? "[File] " : "[Folder] ")
+                 << child->name << endl;
+            child = child->sibling;
+        }
+    }
+
+    // Delete node by path
+    void deleteNode(string path) {
+        if (path == "/") {
+            cout << "Cannot delete root!\n";
+            return;
+        }
+
+        int pos = path.find_last_of('/');
+        string parentPath = path.substr(0, pos);
+        string nodeName = path.substr(pos + 1);
+
+        if (parentPath.empty()) parentPath = "/";
+
+        DirNode* parent = findNode(parentPath);
+        if (!parent) {
+            cout << "Parent path not found!\n";
+            return;
+        }
+
+        DirNode* current = parent->child;
+        DirNode* prev = nullptr;
+
+        while (current && current->name != nodeName) {
+            prev = current;
+            current = current->sibling;
+        }
+
+        if (!current) {
+            cout << "Node not found!\n";
+            return;
+        }
+
+        // Remove from sibling chain
+        if (prev)
+            prev->sibling = current->sibling;
+        else
+            parent->child = current->sibling;
+
+        current->sibling = nullptr;
+        deleteSubtree(current);
+
+        cout <
+```
+
 }
 ```
